@@ -21,6 +21,6 @@ maven-build:
 docker-build:
   stage: package
   script:
-    - docker build -t registry.gitlab.com/nikmikhailov13/twitter-analyzer .
+    - docker build -t registry.gitlab.com/nikmikhailov13/twitter-analyzer
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
     - docker push registry.gitlab.com/nikmikhailov13/twitter-analyzer
