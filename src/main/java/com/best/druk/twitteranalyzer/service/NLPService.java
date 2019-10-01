@@ -8,6 +8,7 @@ import edu.stanford.nlp.util.CoreMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -17,6 +18,7 @@ public class NLPService {
 
     private StanfordCoreNLP pipeline;
 
+    @PostConstruct
     public void init() {
         var input = NLPService.class.getResourceAsStream("/nlp.properties");
         var properties = new Properties();
