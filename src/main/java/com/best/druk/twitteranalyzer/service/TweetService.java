@@ -11,12 +11,14 @@ import java.util.List;
 @Slf4j
 public class TweetService {
 
-    public ArrayList<String> getTweets(String topic) {
+    public ArrayList<String> getTweets(String topic, int limit) {
 
         var twitter = new TwitterFactory().getInstance();
         var tweetList = new ArrayList<String>();
         try {
             var query = new Query(topic);
+            query.setCount(limit);
+            query.lang("en");
             QueryResult result;
             do {
                 result = twitter.search(query);
