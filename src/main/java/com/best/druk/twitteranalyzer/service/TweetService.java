@@ -21,11 +21,11 @@ public class TweetService {
             query.lang("en");
             QueryResult result;
             do {
+                if (tweetList.size() == limit)
+                    return tweetList;
                 result = twitter.search(query);
                 List<Status> tweets = result.getTweets();
-                for (Status tweet : tweets) {
-                    tweetList.add(tweet.getText());
-                }
+                tweets.forEach(tweet -> tweetList.add(tweet.getText()));
             } while ((query = result.nextQuery()) != null && tweetList.size() < limit);
         } catch (TwitterException te) {
             log.error("Failed to search tweets: " + te.getMessage());

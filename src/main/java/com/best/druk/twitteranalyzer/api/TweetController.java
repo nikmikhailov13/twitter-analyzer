@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,13 +20,17 @@ public class TweetController {
     private TweetService tweetManager;
     private NLPService nlpService;
 
+    @GetMapping(value = "/")
+    public String index() {
+        return "index";
+    }
+
     @GetMapping("/tweets/{topic}")
     public Map<String, Integer> getTweets(@PathVariable("topic") String topic, @RequestParam("limit") int limit) {
 
-        ArrayList<String> tweets = tweetManager.getTweets(topic, limit);
+        var tweets = tweetManager.getTweets(topic, limit);
         var tweetMap = new HashMap<String, Integer>();
         tweets.forEach(tweet -> tweetMap.put(tweet, nlpService.findSentiment(tweet)));
-        log.info(tweetMap.toString());
         return tweetMap;
     }
 
