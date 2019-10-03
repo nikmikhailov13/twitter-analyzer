@@ -26,7 +26,7 @@ public class TweetService {
                 for (Status tweet : tweets) {
                     tweetList.add(tweet.getText());
                 }
-            } while ((query = result.nextQuery()) != null);
+            } while ((query = result.nextQuery()) != null && tweetList.size() < limit);
         } catch (TwitterException te) {
             log.error("Failed to search tweets: " + te.getMessage());
         }
