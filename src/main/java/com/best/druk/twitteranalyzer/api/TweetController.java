@@ -1,37 +1,34 @@
 package com.best.druk.twitteranalyzer.api;
 
+import com.best.druk.twitteranalyzer.model.Tweet;
 import com.best.druk.twitteranalyzer.service.NLPService;
 import com.best.druk.twitteranalyzer.service.TweetService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Slf4j
-@RestController
+@Controller
 @AllArgsConstructor
 public class TweetController {
 
     private TweetService tweetManager;
     private NLPService nlpService;
 
-    @GetMapping(value = "/")
+    @RequestMapping(value = "/")
     public String index() {
         return "index";
     }
 
+    @ResponseBody
     @GetMapping("/tweets/{topic}")
-    public Map<String, Integer> getTweets(@PathVariable("topic") String topic, @RequestParam("limit") int limit) {
-
-        var tweets = tweetManager.getTweets(topic, limit);
-        var tweetMap = new HashMap<String, Integer>();
-        tweets.forEach(tweet -> tweetMap.put(tweet, nlpService.findSentiment(tweet)));
-        return tweetMap;
+    public List<Tweet> getTweets(@PathVariable("topic") String topic, @RequestParam("limit") int limit) {
+        log.info("Getting tweets");
+        return tweetManager.getTweets(topic, limit);
     }
+
 
 }
