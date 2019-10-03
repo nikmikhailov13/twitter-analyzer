@@ -38,7 +38,7 @@ class App extends React.Component {
     }
 
     handleClick() {
-        fetch('http://localhost:8080/tweets/' + this.input_topic.current.value + '/?limit=' + this.input_limit.current.value)
+        fetch('https://twitter-analyzer-best-druk.herokuapp.com/tweets/' + this.input_topic.current.value + '/?limit=' + this.input_limit.current.value)
             .then(res => res.json())
             .then((data) => {
                 this.setState({contacts: data})
