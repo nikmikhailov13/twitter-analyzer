@@ -1,5 +1,7 @@
 package com.best.druk.twitteranalyzer.service;
 
+import com.best.druk.twitteranalyzer.model.Tweet;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import twitter4j.*;
@@ -9,27 +11,38 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class TweetService {
 
-    public ArrayList<String> getTweets(String topic, int limit) {
+    private final NLPService nlpService;
+    private final Twitter twitter;
 
-        var twitter = new TwitterFactory().getInstance();
-        var tweetList = new ArrayList<String>();
+    public ArrayList<Tweet> getTweets(String topic, int limit) {
+
+        var tweetList = new ArrayList<Tweet>();
         try {
             var query = new Query(topic);
             query.setCount(limit);
-            query.lang("en");
+            query.setCount(limit);
             QueryResult result;
             do {
-                if (tweetList.size() == limit)
+                if (tweetList.size() == limit) {
                     return tweetList;
+                }
                 result = twitter.search(query);
-                List<Status> tweets = result.getTweets();
-                tweets.forEach(tweet -> tweetList.add(tweet.getText()));
+                List<Status> tweetsStatus = result.getTweets();
+                tweetsStatus.forEach(tweet -> tweetList.add(buildTweet(tweet)));
+
             } while ((query = result.nextQuery()) != null && tweetList.size() < limit);
+
         } catch (TwitterException te) {
             log.error("Failed to search tweets: " + te.getMessage());
         }
         return tweetList;
+    }
+
+    private Tweet buildTweet(Status status) {
+        String text = status.isRetweet() ? status.getRetweetedStatus().getText() : status.getText();
+        return new Tweet(status.getUser().getScreenName(), text, nlpService.findSentiment(text));
     }
 }
