@@ -18,12 +18,14 @@ public class TweetController {
 
     @RequestMapping(value = "/")
     public String index() {
+
         return "index";
     }
 
     @ResponseBody
     @GetMapping("/tweets/{topic}")
     public List<Tweet> getTweets(@PathVariable("topic") String topic, @RequestParam("limit") int limit) {
+
         log.info("Getting tweets");
         return tweetManager.getTweets(topic, limit);
     }
