@@ -6,6 +6,7 @@ target/
 package-lock.json
 desktop.ini
 node_modules
+src/resources/static/build/
 
 ### STS ###
 .apt_generated
