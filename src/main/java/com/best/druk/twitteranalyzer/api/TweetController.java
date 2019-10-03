@@ -1,7 +1,6 @@
 package com.best.druk.twitteranalyzer.api;
 
 import com.best.druk.twitteranalyzer.model.Tweet;
-import com.best.druk.twitteranalyzer.service.NLPService;
 import com.best.druk.twitteranalyzer.service.TweetService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,6 @@ import java.util.List;
 public class TweetController {
 
     private TweetService tweetManager;
-    private NLPService nlpService;
 
     @RequestMapping(value = "/")
     public String index() {
