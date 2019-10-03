@@ -17,11 +17,11 @@ public class TweetService {
     private final NLPService nlpService;
     private final Twitter twitter;
 
-    public ArrayList<Tweet> getTweets(String topic, int limit) {
+    public List<Tweet> getTweets(String topic, int limit) {
 
-        var tweetList = new ArrayList<Tweet>();
+        List<Tweet> tweetList = new ArrayList<Tweet>();
         try {
-            var query = new Query(topic);
+            Query query = new Query(topic);
             query.setCount(limit);
             query.setCount(limit);
             QueryResult result;
